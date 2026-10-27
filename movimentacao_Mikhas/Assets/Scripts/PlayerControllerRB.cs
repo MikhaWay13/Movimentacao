@@ -9,12 +9,6 @@ public class PlayerControllerRB : MonoBehaviour
     [SerializeField] private float RunningSpeed = 9.0f;
     [SerializeField] private float JumpForce = 8.0f;
 
-    // Atributos para verificação se o player está no chão
-    [SerializeField] private float groundCheckExtra = 0.1f;
-    private CapsuleCollider capsule;
-    [SerializeField] private LayerMask groundMask;
-    private bool isGrounded;
-
     // Atributos utilizados para a movimentação do player
     private Rigidbody rb;
     private Vector2 moveVector = Vector2.zero;
@@ -23,10 +17,19 @@ public class PlayerControllerRB : MonoBehaviour
     // Flag para indicar se deve realizar pulo na próxima atualização de física (FixedUpdate)
     private bool jumpRequested = false;
 
+    // Atributos para verificação se o player está no chão
+    [SerializeField] private float groundCheckExtra = 0.1f;
+    private CapsuleCollider capsule;
+    [SerializeField] private LayerMask groundMask;
+    private bool isGrounded;
+
+
     // Atributos das actions de movimentação e câmera
     private InputAction moveInput;
     private InputAction runInput;
     private InputAction jumpInput;
+
+
     private InputAction lookInput;
     private Camera mainCamera;
 
@@ -39,10 +42,11 @@ public class PlayerControllerRB : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
 
-        // Recupera o CapsuleCollider para o Raycast
+    // será utilizada para definir distância do Raycast para verificar
+    // se o player está no chão
         capsule = GetComponent<CapsuleCollider>();
 
-        // CORREÇÃO: Inicializa a referência da câmera que estava faltando!
+
         mainCamera = GetComponentInChildren<Camera>();
 
         // Referências as actions do Input System
@@ -51,32 +55,62 @@ public class PlayerControllerRB : MonoBehaviour
         jumpInput = InputSystem.actions.FindAction("Jump");
         lookInput = InputSystem.actions.FindAction("Look");
 
-        // Omitir cursor da tela
+        // omitir cursor da tela
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        // Definindo a velocidade atual para iniciar com a velocidade de andar
+        // definindo a velocidade atual para inicar com a velocidade de andar
         currentMoveSpeed = WalkSpeed;
     }
 
     private void Update()
     {
-        // Input é lido todo frame; a física é aplicada no FixedUpdate
+        //input é lido todo frame; a física é aplicada no FixedUpdate
         moveVector = moveInput.ReadValue<Vector2>();
 
-        // Define a velocidade de andar ou correr
+        //define a velocidade de andar ou correr dependendo se a ação de correr está ou não ativa
         currentMoveSpeed = runInput.IsPressed() ? RunningSpeed : WalkSpeed;
-
-        // Verifica se o pulo foi apertado
+        
+        //verifica se o pulo foi apertado
         if (jumpInput.WasPressedThisFrame())
         {
             jumpRequested = true;
         }
 
-        // Aplica a movimentação de câmera
+
         Vector2 lookVector = lookInput.ReadValue<Vector2>();
         HandleCamera(lookVector);
     }
+
+    private void FixedUpdate()
+    {
+        //calcula a direção do movimento considerando a posição do player pelo transform
+        Vector3 move = (transform.forward * moveVector.y + transform.right * moveVector.x) * currentMoveSpeed;
+
+        // por enquanto, mantém a mesma velocidade na vertical
+        float verticalVelocity = rb.linearVelocity.y;
+
+        //verifica se o player está no chão
+        float distance = capsule.height / 2f + groundCheckExtra;
+        Vector3 origin = transform.TransformPoint(capsule.center);
+        isGrounded = Physics.Raycast(origin, Vector3.down, distance, groundMask);
+        
+
+        //alterra a velocidade do eixo y se o player estiver pulando e no chão
+        if (jumpRequested && isGrounded)
+        {
+            verticalVelocity = JumpForce;
+        }
+        jumpRequested = false;
+
+        // aplica a velocidade para movimentar o rigidbody na direção definida pelo input 
+        //alterar a linearVelocity tem resposta imediata, sem aceleração nem deslize.
+        //a física ainda cuida da gravidade e das colisões, mas qualquer força externa aplicada ao 
+        // objeto é sobrescrita
+        rb.linearVelocity = new Vector3(move.x, verticalVelocity, move.z);
+    }
+
+
 
     private void HandleCamera(Vector2 lookVector)
     {
@@ -85,31 +119,5 @@ public class PlayerControllerRB : MonoBehaviour
 
         mainCamera.transform.localRotation = Quaternion.Euler(lookAngle, 0, 0);
         transform.rotation *= Quaternion.Euler(0, lookVector.x * LookSensitivity, 0);
-    }
-
-    private void FixedUpdate()
-    {
-        // Calcula a direção do movimento considerando a posição do player pelo transform
-        Vector3 move = (transform.forward * moveVector.y + transform.right * moveVector.x) * currentMoveSpeed;
-
-        // Mantém a mesma velocidade na vertical vinda da física por padrão
-        float verticalVelocity = rb.linearVelocity.y;
-
-        // CORREÇÃO: Lógica de verificação de chão e pulo que havia sido cortada!
-        float distance = capsule.height / 2f + groundCheckExtra;
-        Vector3 origin = transform.TransformPoint(capsule.center);
-        
-        // Executa o Raycast para baixo
-        isGrounded = Physics.Raycast(origin, Vector3.down, distance, groundMask);
-
-        // Altera a velocidade do eixo y se o player estiver pulando e no chão
-        if (jumpRequested && isGrounded)
-        {
-            verticalVelocity = JumpForce;
-        }
-        jumpRequested = false;
-
-        // Aplica a velocidade final no Rigidbody
-        rb.linearVelocity = new Vector3(move.x, verticalVelocity, move.z);
     }
 }

@@ -56,18 +56,13 @@ public class PlayerControllerCC : MonoBehaviour
 
     private void HandleCamera(Vector2 lookVector)
     {
-        // atualiza o ângulo da câmera a partir do eixo y lido (para cima ou para baixo)
-        // é necessário inverter pois quando vamos para frente com o mouse ou joystick
-        // queremos que a rotação da câmera em relação ao eixo x diminua
+      
         lookAngle += -lookVector.y * LookSensitivity;
 
-        // aqui garantimos não permitir uma rotação maior que o limite definido (90 graus)
         lookAngle = Mathf.Clamp(lookAngle, -LookAngleLimit, LookAngleLimit);
 
-        // aplica a rotação da câmera para cima ou para baixo
         mainCamera.transform.localRotation = Quaternion.Euler(lookAngle, 0, 0);
 
-        // aplica a rotação para esquerda ou direita no objeto do player
         transform.rotation *= Quaternion.Euler(0, lookVector.x * LookSensitivity, 0);
     }
 
@@ -75,28 +70,26 @@ public class PlayerControllerCC : MonoBehaviour
 
     private void HandleMovement(Vector2 moveVector)
     {
-        // calcula o movimento a partir das direções atuais do player - por isso usa o transform
-        // e do input lido (esquerda, direita, frente ou trás)
-        // já multiplica pela velocidade do player
+
         Vector3 moveDirection = (transform.forward * moveVector.y + transform.right * moveVector.x) * currentMoveSpeed;
 
-        if (characterController.isGrounded) // verifica se o player está no chão
+        if (characterController.isGrounded) 
         {
-            if (jumpInput.WasPressedThisFrame()) // verifica se o player pressionou o pulo
+            if (jumpInput.WasPressedThisFrame()) 
                 verticalVelocity = JumpForce;
             else
-                verticalVelocity = -2f; // mantém o contato com o chão
+                verticalVelocity = -2f; 
         }
         else
         {
-            // aplica gravidade se o player estiver no ar
+        
             verticalVelocity -= Gravity * Time.deltaTime;
         }
 
-        // altera a velocidade no eixo y
+        
         moveDirection.y = verticalVelocity;
 
-        // aplica a movimentação utilizando o CharacterController
+        
         characterController.Move(moveDirection * Time.deltaTime);
     }
 
