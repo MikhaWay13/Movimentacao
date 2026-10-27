@@ -137,7 +137,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &211347461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,9 +150,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48f7f54f1619dd040853e2d159cdc48a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerControllerRB
-  WalkSpeed: 5.5
+  WalkSpeed: 5
   RunningSpeed: 9
-  JumpForce: 8
+  JumpForce: 5
   groundCheckExtra: 0.1
   groundMask:
     serializedVersion: 2
@@ -333,7 +333,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &595539651
 MonoBehaviour:
   m_ObjectHideFlags: 0
