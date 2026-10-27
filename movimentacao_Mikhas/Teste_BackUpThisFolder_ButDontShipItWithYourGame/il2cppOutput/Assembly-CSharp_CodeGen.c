@@ -1,0 +1,90 @@
+﻿#include "pch-c.h"
+
+
+#include "codegen/il2cpp-codegen-metadata.h"
+
+
+
+
+
+extern void PlayerControllerCC_Start_m7B80DC0291AF6B41FD85F14D90DE179D4193F093 (void);
+extern void PlayerControllerCC_Update_mE517F135707F13943132D2455559030B3578661C (void);
+extern void PlayerControllerCC_HandleCamera_mC6DE832D3ECD16DF62B6F19EEBF25B2A6C7F481A (void);
+extern void PlayerControllerCC_HandleMovement_m3C8297AB5E6ADDD8AD10C1EEEA3819BEC2B9EA79 (void);
+extern void PlayerControllerCC__ctor_m2EF574C553B851A8EF28529096C95E2B71833F3C (void);
+extern void PlayerControllerRB_Start_m6E56AF9880C95B51633CCB9611BCB5B82BC8C410 (void);
+extern void PlayerControllerRB_Update_m5AEE2B651360AD1DAB9076C243C4A18CA15F3564 (void);
+extern void PlayerControllerRB_FixedUpdate_m9B4E5F3304BBC3E618707B4A81C0264AE9FAD981 (void);
+extern void PlayerControllerRB_HandleCamera_m17EB032CB2162BCE514B7B1914D108D983F05B04 (void);
+extern void PlayerControllerRB__ctor_mE260392589957523BC7E18478B8C67DD5B4070F6 (void);
+extern void PlayerControllerVR_Start_mC584666485D5AEAAC116D88AD6E56CA6A6E11193 (void);
+extern void PlayerControllerVR_Update_m9F49944CC44B64931CB8790CC588B56F2872A293 (void);
+extern void PlayerControllerVR_HandleMovement_mC7584441955C9B083F45A5F084D027455A639F5A (void);
+extern void PlayerControllerVR__ctor_mB3558E865A788BA882DE4FC9D0B63BFD3A525CE6 (void);
+extern void Readme__ctor_m69C325C4C171DCB0312B646A9034AA91EA8C39C6 (void);
+extern void Section__ctor_m5F732533E4DFC0167D965E5F5DB332E46055399B (void);
+extern void UnitySourceGeneratedAssemblyMonoScriptTypes_v1_Get_mBEB95BEB954BB63E9710BBC7AD5E78C4CB0A0033 (void);
+extern void UnitySourceGeneratedAssemblyMonoScriptTypes_v1__ctor_mE70FB23ACC1EA12ABC948AA22C2E78B2D0AA39B1 (void);
+static Il2CppMethodPointer s_methodPointers[18] = 
+{
+	PlayerControllerCC_Start_m7B80DC0291AF6B41FD85F14D90DE179D4193F093,
+	PlayerControllerCC_Update_mE517F135707F13943132D2455559030B3578661C,
+	PlayerControllerCC_HandleCamera_mC6DE832D3ECD16DF62B6F19EEBF25B2A6C7F481A,
+	PlayerControllerCC_HandleMovement_m3C8297AB5E6ADDD8AD10C1EEEA3819BEC2B9EA79,
+	PlayerControllerCC__ctor_m2EF574C553B851A8EF28529096C95E2B71833F3C,
+	PlayerControllerRB_Start_m6E56AF9880C95B51633CCB9611BCB5B82BC8C410,
+	PlayerControllerRB_Update_m5AEE2B651360AD1DAB9076C243C4A18CA15F3564,
+	PlayerControllerRB_FixedUpdate_m9B4E5F3304BBC3E618707B4A81C0264AE9FAD981,
+	PlayerControllerRB_HandleCamera_m17EB032CB2162BCE514B7B1914D108D983F05B04,
+	PlayerControllerRB__ctor_mE260392589957523BC7E18478B8C67DD5B4070F6,
+	PlayerControllerVR_Start_mC584666485D5AEAAC116D88AD6E56CA6A6E11193,
+	PlayerControllerVR_Update_m9F49944CC44B64931CB8790CC588B56F2872A293,
+	PlayerControllerVR_HandleMovement_mC7584441955C9B083F45A5F084D027455A639F5A,
+	PlayerControllerVR__ctor_mB3558E865A788BA882DE4FC9D0B63BFD3A525CE6,
+	Readme__ctor_m69C325C4C171DCB0312B646A9034AA91EA8C39C6,
+	Section__ctor_m5F732533E4DFC0167D965E5F5DB332E46055399B,
+	UnitySourceGeneratedAssemblyMonoScriptTypes_v1_Get_mBEB95BEB954BB63E9710BBC7AD5E78C4CB0A0033,
+	UnitySourceGeneratedAssemblyMonoScriptTypes_v1__ctor_mE70FB23ACC1EA12ABC948AA22C2E78B2D0AA39B1,
+};
+static const int32_t s_InvokerIndices[18] = 
+{
+	14926,
+	14926,
+	11246,
+	11246,
+	14926,
+	14926,
+	14926,
+	14926,
+	11246,
+	14926,
+	14926,
+	14926,
+	11246,
+	14926,
+	14926,
+	14926,
+	26167,
+	14926,
+};
+IL2CPP_EXTERN_C const Il2CppCodeGenModule g_AssemblyU2DCSharp_CodeGenModule;
+const Il2CppCodeGenModule g_AssemblyU2DCSharp_CodeGenModule = 
+{
+	"Assembly-CSharp.dll",
+	18,
+	s_methodPointers,
+	0,
+	NULL,
+	s_InvokerIndices,
+	0,
+	NULL,
+	0,
+	NULL,
+	0,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+};
