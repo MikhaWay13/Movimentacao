@@ -36091,14 +36091,10 @@ struct PlayerControllerVR_t3C75EBB8F8E6F0B9E39FD08611A1562C20CCAB5B  : public Mo
 	float ___RunningSpeed;
 	float ___JumpForce;
 	float ___Gravity;
-	float ___LookSensitivity;
-	float ___LookAngleLimit;
-	float ___lookAngle;
 	InputAction_t1B550AD2B55AF322AFB53CD28DA64081220D01CD* ___moveInput;
 	InputAction_t1B550AD2B55AF322AFB53CD28DA64081220D01CD* ___runInput;
 	InputAction_t1B550AD2B55AF322AFB53CD28DA64081220D01CD* ___jumpInput;
 	Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E184* ___mainCamera;
-	InputAction_t1B550AD2B55AF322AFB53CD28DA64081220D01CD* ___lookInput;
 	float ___currentMoveSpeed;
 	float ___verticalVelocity;
 };

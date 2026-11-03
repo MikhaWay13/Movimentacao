@@ -10,15 +10,15 @@ public class PlayerControllerVR : MonoBehaviour
     [SerializeField] private float RunningSpeed = 9.0f;
     [SerializeField] private float JumpForce = 8.0f;
     [SerializeField] private float Gravity = 20.0f;
-    [SerializeField] private float LookSensitivity = 0.2f;
-    [SerializeField] private float LookAngleLimit = 90f;
-    private float lookAngle = 0.0f;
+    //[SerializeField] private float LookSensitivity = 0.2f;
+   // [SerializeField] private float LookAngleLimit = 90f;
+   // private float lookAngle = 0.0f;
 
     private InputAction moveInput;
     private InputAction runInput;
     private InputAction jumpInput;
     private Camera mainCamera;
-    private InputAction lookInput;
+   // private InputAction lookInput;
     private float currentMoveSpeed = 0.0f;
     private float verticalVelocity = 0f;
 
@@ -31,7 +31,7 @@ public class PlayerControllerVR : MonoBehaviour
         moveInput = InputSystem.actions.FindAction("Move");
         runInput = InputSystem.actions.FindAction("Sprint");
         jumpInput = InputSystem.actions.FindAction("Jump");
-        lookInput = InputSystem.actions.FindAction("Look");
+       // lookInput = InputSystem.actions.FindAction("Look");
         // omitir cursor da tela
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -64,6 +64,32 @@ public class PlayerControllerVR : MonoBehaviour
         Vector3 right = Vector3.ProjectOnPlane(mainCamera.transform.right, Vector3.up).normalized;
         Vector3 forward = Vector3.Cross(right, Vector3.up);
         Vector3 moveDirection = (forward * moveVector.y + right * moveVector.x) * currentMoveSpeed;
+
+        if (characterController.isGrounded)
+        {
+            if (jumpInput.WasPressedThisFrame())
+            {
+                verticalVelocity = JumpForce;
+                
+            }
+            
+            else
+            {
+                verticalVelocity = -2f;
+                
+            }
+            
+        }
+            else
+            {
+                verticalVelocity -= Gravity * Time.deltaTime;
+                
+            }
+            
+
+            moveDirection.y = verticalVelocity;
+
+            characterController.Move(moveDirection*Time.deltaTime);
 
     }
 

@@ -469,14 +469,10 @@ struct PlayerControllerVR_t3C75EBB8F8E6F0B9E39FD08611A1562C20CCAB5B  : public Mo
 	float ___RunningSpeed;
 	float ___JumpForce;
 	float ___Gravity;
-	float ___LookSensitivity;
-	float ___LookAngleLimit;
-	float ___lookAngle;
 	InputAction_t1B550AD2B55AF322AFB53CD28DA64081220D01CD* ___moveInput;
 	InputAction_t1B550AD2B55AF322AFB53CD28DA64081220D01CD* ___runInput;
 	InputAction_t1B550AD2B55AF322AFB53CD28DA64081220D01CD* ___jumpInput;
 	Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E184* ___mainCamera;
-	InputAction_t1B550AD2B55AF322AFB53CD28DA64081220D01CD* ___lookInput;
 	float ___currentMoveSpeed;
 	float ___verticalVelocity;
 };
@@ -1339,7 +1335,6 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PlayerControllerVR_Start_mC584666485D5AE
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&_stringLiteral163DCC8E458A1FCC2E86F0FD61BE2BCE27195238);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&_stringLiteral378F2A2277727E3F33599E270749A10E7C2B55E1);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&_stringLiteral70253F929BCE7F81DF1A5A1C0900BED744E86C9C);
-		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&_stringLiteralFBA9CEB43D14830BEAAF5F87C6AAAD1A8A36A67F);
 		s_Il2CppMethodInitialized = true;
 	}
 	{
@@ -1378,21 +1373,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PlayerControllerVR_Start_mC584666485D5AE
 		L_7 = InputActionAsset_FindAction_m50D07EAFAA8628B9793E7BBEEB2E89C2A9C45C00(L_6, _stringLiteral70253F929BCE7F81DF1A5A1C0900BED744E86C9C, (bool)0, NULL);
 		__this->___jumpInput = L_7;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___jumpInput), (void*)L_7);
-		//<source_info:C:/Users/IFPR/Documents/GitHub/Movimentacao/movimentacao_Mikhas/Assets/Scripts/PlayerControllerVR.cs:34>
-		InputActionAsset_tF217AC5223B4AAA46EBCB44B33E9259FB117417D* L_8;
-		L_8 = InputSystem_get_actions_mE8D99B32AF6B8AB69DCF5DBBEC60C0F010C79B6C(NULL);
-		NullCheck(L_8);
-		InputAction_t1B550AD2B55AF322AFB53CD28DA64081220D01CD* L_9;
-		L_9 = InputActionAsset_FindAction_m50D07EAFAA8628B9793E7BBEEB2E89C2A9C45C00(L_8, _stringLiteralFBA9CEB43D14830BEAAF5F87C6AAAD1A8A36A67F, (bool)0, NULL);
-		__this->___lookInput = L_9;
-		Il2CppCodeGenWriteBarrier((void**)(&__this->___lookInput), (void*)L_9);
 		//<source_info:C:/Users/IFPR/Documents/GitHub/Movimentacao/movimentacao_Mikhas/Assets/Scripts/PlayerControllerVR.cs:36>
 		Cursor_set_lockState_mD81F6E5F3D86506FFB88567689A3A00A7AD242E9(1, NULL);
 		//<source_info:C:/Users/IFPR/Documents/GitHub/Movimentacao/movimentacao_Mikhas/Assets/Scripts/PlayerControllerVR.cs:37>
 		Cursor_set_visible_m612FCB2E86C15F91CE2E6148D1B556667954A2B7((bool)0, NULL);
 		//<source_info:C:/Users/IFPR/Documents/GitHub/Movimentacao/movimentacao_Mikhas/Assets/Scripts/PlayerControllerVR.cs:40>
-		float L_10 = __this->___WalkSpeed;
-		__this->___currentMoveSpeed = L_10;
+		float L_8 = __this->___WalkSpeed;
+		__this->___currentMoveSpeed = L_8;
 		//<source_info:C:/Users/IFPR/Documents/GitHub/Movimentacao/movimentacao_Mikhas/Assets/Scripts/PlayerControllerVR.cs:42>
 		return;
 	}
@@ -1463,6 +1450,8 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PlayerControllerVR_HandleMovement_mC7584
 	memset((&V_0), 0, sizeof(V_0));
 	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 V_1;
 	memset((&V_1), 0, sizeof(V_1));
+	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 V_2;
+	memset((&V_2), 0, sizeof(V_2));
 	{
 		//<source_info:C:/Users/IFPR/Documents/GitHub/Movimentacao/movimentacao_Mikhas/Assets/Scripts/PlayerControllerVR.cs:64>
 		Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E184* L_0 = __this->___mainCamera;
@@ -1476,9 +1465,9 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PlayerControllerVR_HandleMovement_mC7584
 		L_3 = Vector3_get_up_m128AF3FDC820BF59D5DE86D973E7DE3F20C3AEBA_inline(NULL);
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_4;
 		L_4 = Vector3_ProjectOnPlane_m68FB895F6E9FCC45676BB8B95857D091C0D78794_inline(L_2, L_3, NULL);
-		V_1 = L_4;
+		V_2 = L_4;
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_5;
-		L_5 = Vector3_get_normalized_m736BBF65D5CDA7A18414370D15B4DFCC1E466F07_inline((&V_1), NULL);
+		L_5 = Vector3_get_normalized_m736BBF65D5CDA7A18414370D15B4DFCC1E466F07_inline((&V_2), NULL);
 		V_0 = L_5;
 		//<source_info:C:/Users/IFPR/Documents/GitHub/Movimentacao/movimentacao_Mikhas/Assets/Scripts/PlayerControllerVR.cs:65>
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_6 = V_0;
@@ -1501,7 +1490,68 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PlayerControllerVR_HandleMovement_mC7584
 		float L_17 = __this->___currentMoveSpeed;
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_18;
 		L_18 = Vector3_op_Multiply_m87BA7C578F96C8E49BB07088DAAC4649F83B0353_inline(L_16, L_17, NULL);
+		V_1 = L_18;
 		//<source_info:C:/Users/IFPR/Documents/GitHub/Movimentacao/movimentacao_Mikhas/Assets/Scripts/PlayerControllerVR.cs:68>
+		CharacterController_t847C1A2719F60547D7D6077B648D6CE2D1EF3A6A* L_19 = __this->___characterController;
+		NullCheck(L_19);
+		bool L_20;
+		L_20 = CharacterController_get_isGrounded_m548072EC190878925C0F97595B6C307714EFDD67(L_19, NULL);
+		if (!L_20)
+		{
+			goto IL_008b;
+		}
+	}
+	{
+		//<source_info:C:/Users/IFPR/Documents/GitHub/Movimentacao/movimentacao_Mikhas/Assets/Scripts/PlayerControllerVR.cs:70>
+		InputAction_t1B550AD2B55AF322AFB53CD28DA64081220D01CD* L_21 = __this->___jumpInput;
+		NullCheck(L_21);
+		bool L_22;
+		L_22 = InputAction_WasPressedThisFrame_m9D3F0284EB46EEB7F720DCC96BBDF027C9B6A75F(L_21, NULL);
+		if (!L_22)
+		{
+			goto IL_007e;
+		}
+	}
+	{
+		//<source_info:C:/Users/IFPR/Documents/GitHub/Movimentacao/movimentacao_Mikhas/Assets/Scripts/PlayerControllerVR.cs:72>
+		float L_23 = __this->___JumpForce;
+		__this->___verticalVelocity = L_23;
+		goto IL_00a4;
+	}
+
+IL_007e:
+	{
+		//<source_info:C:/Users/IFPR/Documents/GitHub/Movimentacao/movimentacao_Mikhas/Assets/Scripts/PlayerControllerVR.cs:78>
+		__this->___verticalVelocity = (-2.0f);
+		goto IL_00a4;
+	}
+
+IL_008b:
+	{
+		//<source_info:C:/Users/IFPR/Documents/GitHub/Movimentacao/movimentacao_Mikhas/Assets/Scripts/PlayerControllerVR.cs:85>
+		float L_24 = __this->___verticalVelocity;
+		float L_25 = __this->___Gravity;
+		float L_26;
+		L_26 = Time_get_deltaTime_mC3195000401F0FD167DD2F948FD2BC58330D0865(NULL);
+		__this->___verticalVelocity = ((float)il2cpp_codegen_subtract(L_24, ((float)il2cpp_codegen_multiply(L_25, L_26))));
+	}
+
+IL_00a4:
+	{
+		//<source_info:C:/Users/IFPR/Documents/GitHub/Movimentacao/movimentacao_Mikhas/Assets/Scripts/PlayerControllerVR.cs:90>
+		float L_27 = __this->___verticalVelocity;
+		(&V_1)->___y = L_27;
+		//<source_info:C:/Users/IFPR/Documents/GitHub/Movimentacao/movimentacao_Mikhas/Assets/Scripts/PlayerControllerVR.cs:92>
+		CharacterController_t847C1A2719F60547D7D6077B648D6CE2D1EF3A6A* L_28 = __this->___characterController;
+		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_29 = V_1;
+		float L_30;
+		L_30 = Time_get_deltaTime_mC3195000401F0FD167DD2F948FD2BC58330D0865(NULL);
+		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_31;
+		L_31 = Vector3_op_Multiply_m87BA7C578F96C8E49BB07088DAAC4649F83B0353_inline(L_29, L_30, NULL);
+		NullCheck(L_28);
+		int32_t L_32;
+		L_32 = CharacterController_Move_mE3F7AC1B4A2D6955980811C088B68ED3A31D2DA4(L_28, L_31, NULL);
+		//<source_info:C:/Users/IFPR/Documents/GitHub/Movimentacao/movimentacao_Mikhas/Assets/Scripts/PlayerControllerVR.cs:94>
 		return;
 	}
 }
@@ -1517,10 +1567,6 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PlayerControllerVR__ctor_mB3558E865A788B
 		__this->___JumpForce = (8.0f);
 		//<source_info:C:/Users/IFPR/Documents/GitHub/Movimentacao/movimentacao_Mikhas/Assets/Scripts/PlayerControllerVR.cs:12>
 		__this->___Gravity = (20.0f);
-		//<source_info:C:/Users/IFPR/Documents/GitHub/Movimentacao/movimentacao_Mikhas/Assets/Scripts/PlayerControllerVR.cs:13>
-		__this->___LookSensitivity = (0.200000003f);
-		//<source_info:C:/Users/IFPR/Documents/GitHub/Movimentacao/movimentacao_Mikhas/Assets/Scripts/PlayerControllerVR.cs:14>
-		__this->___LookAngleLimit = (90.0f);
 		MonoBehaviour__ctor_m592DB0105CA0BC97AA1C5F4AD27B12D68A3B7C1E(__this, NULL);
 		return;
 	}
