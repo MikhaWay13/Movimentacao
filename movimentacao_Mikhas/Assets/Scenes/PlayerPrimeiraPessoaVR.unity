@@ -217,14 +217,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 211347460}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 497052885}
   - {fileID: 960200436}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 567420736}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &497052884
 GameObject:
@@ -488,6 +488,40 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!1 &567420735
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 567420736}
+  m_Layer: 0
+  m_Name: Players
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &567420736
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 567420735}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 595539655}
+  - {fileID: 211347464}
+  - {fileID: 1178669270}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &595539650
 GameObject:
   m_ObjectHideFlags: 0
@@ -564,7 +598,7 @@ Transform:
   m_Children:
   - {fileID: 1568749670}
   - {fileID: 1246955278}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 567420736}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &642041336
 GameObject:
@@ -962,8 +996,6 @@ MonoBehaviour:
   RunningSpeed: 9
   JumpForce: 8
   Gravity: 20
-  LookSensitivity: 0.2
-  LookAngleLimit: 90
 --- !u!143 &1178669269
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1004,7 +1036,7 @@ Transform:
   m_Children:
   - {fileID: 2079872559}
   - {fileID: 642041337}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 567420736}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1246955277
 GameObject:
@@ -1529,6 +1561,4 @@ SceneRoots:
   m_Roots:
   - {fileID: 2038298616}
   - {fileID: 1966785260}
-  - {fileID: 595539655}
-  - {fileID: 211347464}
-  - {fileID: 1178669270}
+  - {fileID: 567420736}
