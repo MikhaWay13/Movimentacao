@@ -16,12 +16,12 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System.Collections;
 using UnityEngine;
 
 /// <summary>
 /// Controls target objects behaviour.
 /// </summary>
+[RequireComponent(typeof(AudioSource))]
 public class ObjectController : MonoBehaviour
 {
     /// <summary>
@@ -34,51 +34,48 @@ public class ObjectController : MonoBehaviour
     /// </summary>
     public Material GazedAtMaterial;
 
-    // The objects are about 1 meter in radius, so the min/max target distance are
-    // set so that the objects are always within the room (which is about 5 meters
-    // across).
-    private const float _minObjectDistance = 2.5f;
-    private const float _maxObjectDistance = 3.5f;
-    private const float _minObjectHeight = 0.5f;
-    private const float _maxObjectHeight = 3.5f;
+    /// <summary>
+    /// Arquivo de áudio que será reproduzido ao clicar no objeto.
+    /// </summary>
+    public AudioClip Musica;
 
     private Renderer _myRenderer;
-    private Vector3 _startingPosition;
+    private AudioSource _audioSource;
 
     /// <summary>
     /// Start is called before the first frame update.
     /// </summary>
     public void Start()
     {
-        _startingPosition = transform.parent.localPosition;
         _myRenderer = GetComponent<Renderer>();
+        _audioSource = GetComponent<AudioSource>();
+
+        // Evita que a música comece tocando sozinha assim que o jogo iniciar
+        _audioSource.playOnAwake = false;
+        _audioSource.clip = Musica;
+
         SetMaterial(false);
     }
 
     /// <summary>
-    /// Teleports this instance randomly when triggered by a pointer click.
+    /// Toca a música quando acionado pelo clique/toque.
     /// </summary>
-    public void TeleportRandomly()
+    public void PlayMusic()
     {
-        // Picks a random sibling, activates it and deactivates itself.
-        int sibIdx = transform.GetSiblingIndex();
-        int numSibs = transform.parent.childCount;
-        sibIdx = (sibIdx + Random.Range(1, numSibs)) % numSibs;
-        GameObject randomSib = transform.parent.GetChild(sibIdx).gameObject;
+        if (Musica == null)
+        {
+            Debug.LogWarning("Nenhuma música foi atribuída no Inspector do objeto: " + gameObject.name);
+            return;
+        }
 
-        // Computes new object's location.
-        float angle = Random.Range(-Mathf.PI, Mathf.PI);
-        float distance = Random.Range(_minObjectDistance, _maxObjectDistance);
-        float height = Random.Range(_minObjectHeight, _maxObjectHeight);
-        Vector3 newPos = new Vector3(Mathf.Cos(angle) * distance, height,
-                                     Mathf.Sin(angle) * distance);
+        // Se já estiver tocando, reinicia a música do começo.
+        // (Se preferir que o segundo clique pause a música, troque o bloco abaixo por: if (_audioSource.isPlaying) { _audioSource.Pause(); return; })
+        if (_audioSource.isPlaying)
+        {
+            _audioSource.Stop();
+        }
 
-        // Moves the parent to the new position (siblings relative distance from their parent is 0).
-        transform.parent.localPosition = newPos;
-
-        randomSib.SetActive(true);
-        gameObject.SetActive(false);
-        SetMaterial(false);
+        _audioSource.Play();
     }
 
     /// <summary>
@@ -103,16 +100,12 @@ public class ObjectController : MonoBehaviour
     /// </summary>
     public void OnPointerClick()
     {
-        TeleportRandomly();
+        PlayMusic();
     }
 
     /// <summary>
     /// Sets this instance's material according to gazedAt status.
     /// </summary>
-    ///
-    /// <param name="gazedAt">
-    /// Value `true` if this object is being gazed at, `false` otherwise.
-    /// </param>
     private void SetMaterial(bool gazedAt)
     {
         if (InactiveMaterial != null && GazedAtMaterial != null)

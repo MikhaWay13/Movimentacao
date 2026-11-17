@@ -1,4 +1,4 @@
-using System;
+/*using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -95,4 +95,106 @@ public class PlayerControllerVR : MonoBehaviour
 
 
 
+}
+*/
+
+
+
+using System;
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(CapsuleCollider))]
+public class PlayerControllerVR : MonoBehaviour
+{
+    [SerializeField] private float WalkSpeed = 5.5f;
+    [SerializeField] private float RunningSpeed = 9.0f;
+    [SerializeField] private float JumpForce = 8.0f;
+
+    [Header("Verificação de Chão")]
+    [SerializeField] private float groundCheckExtra = 0.15f;
+    [SerializeField] private LayerMask groundMask = ~0;
+
+    private Rigidbody rb;
+    private CapsuleCollider capsule;
+    private Camera mainCamera;
+
+    private InputAction moveInput;
+    private InputAction runInput;
+    private InputAction jumpInput;
+
+    private Vector2 moveVector = Vector2.zero;
+    private float currentMoveSpeed = 0.0f;
+    private bool jumpRequested = false;
+    private bool isGrounded = false;
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+        rb.freezeRotation = true;
+        rb.useGravity = false; // Usa apenas a gravidade radial do SC_PlanetGravity
+        rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+
+        capsule = GetComponent<CapsuleCollider>();
+        mainCamera = GetComponentInChildren<Camera>();
+
+        moveInput = InputSystem.actions.FindAction("Move");
+        runInput = InputSystem.actions.FindAction("Sprint");
+        jumpInput = InputSystem.actions.FindAction("Jump");
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        currentMoveSpeed = WalkSpeed;
+    }
+
+    void Update()
+    {
+        moveVector = moveInput != null ? moveInput.ReadValue<Vector2>() : Vector2.zero;
+
+        bool isRunning = runInput != null && runInput.IsPressed();
+        currentMoveSpeed = isRunning ? RunningSpeed : WalkSpeed;
+
+        if (jumpInput != null && jumpInput.WasPressedThisFrame())
+        {
+            jumpRequested = true;
+        }
+    }
+
+    void FixedUpdate()
+    {
+        HandleMovement(moveVector);
+    }
+
+    private void HandleMovement(Vector2 inputVector)
+    {
+        // Projeta o "right" da câmera VR no plano tangente à superfície do planeta (transform.up)
+        Vector3 right = Vector3.ProjectOnPlane(mainCamera.transform.right, transform.up);
+        if (right.sqrMagnitude < 0.001f)
+        {
+            right = Vector3.ProjectOnPlane(mainCamera.transform.forward, transform.up);
+        }
+        right.Normalize();
+
+        Vector3 forward = Vector3.Cross(right, transform.up).normalized;
+        Vector3 moveDirection = (forward * inputVector.y + right * inputVector.x) * currentMoveSpeed;
+
+        // Verifica se está no chão apontando para os pés do player (-transform.up)
+        float distance = (capsule.height / 2f) + groundCheckExtra;
+        Vector3 origin = transform.TransformPoint(capsule.center);
+        isGrounded = Physics.Raycast(origin, -transform.up, distance, groundMask);
+
+        // Mantém a velocidade radial gerada pela gravidade do planeta
+        float verticalVelocity = Vector3.Dot(rb.linearVelocity, transform.up);
+
+        if (jumpRequested && isGrounded)
+        {
+            verticalVelocity = JumpForce;
+        }
+        jumpRequested = false;
+
+        // Combina o movimento na superfície com a gravidade/pulo local
+        rb.linearVelocity = moveDirection + (transform.up * verticalVelocity);
+    }
 }
